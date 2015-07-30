@@ -1,0 +1,72 @@
+import playerattrib
+import enemyattrib
+import fightmenu
+
+def player_dead() :
+	print "\n"
+	print "o_o" * 15
+	print "You collapse, defeated..."
+	print "o_o" * 15
+
+def enemy_dead() :
+	print "\n"
+	print "\/" * 20
+	print "You defeated your %s!" % (enemyattrib.Enemy.name)
+	print "\/" * 20
+	print "What would you like to say as you stand over your %s?\n" % (enemyattrib.Enemy.name)
+	raw_input(">> ")
+	print "\nYou'll have deep, tranquil nights of sleep now."
+
+	print "\n"
+	print "<>" * 20
+	print "Fin"
+	print "<>" * 20
+	print "\n"
+
+def main() :
+	print "-" * 20
+	print "You have been chosen to fight back."
+	print "Before choosing who to beat up, answer a few questions."
+	
+	playerattrib.strength_question()
+	print "Your strength stat is %s." % (playerattrib.Player.strength)
+	
+	playerattrib.evasion_question()
+	print "Your evasion stat is %s." % (playerattrib.Player.evasion)
+	
+	playerattrib.attack_speed_question()
+	print "Your double-attack stat is %s." % (playerattrib.Player.attack_speed)
+	
+	playerattrib.critical_hit_question()
+	print "Your critical hit stat is %s." % (playerattrib.Player.critical_hit)
+	
+	print "\n"
+	print "-" * 20
+	print "Now, select who you want to teach a lesson to."
+	enemyattrib.choose_enemy()
+	enemyattrib.enemy_difficulty()
+	print "\n"
+	print "-" * 20
+	print "You're going to beat up your %s, who has %s HP and strength stat of %s." % (enemyattrib.Enemy.name, enemyattrib.Enemy.HP, enemyattrib.Enemy.strength)
+	
+	print "\n"
+	print "-" * 20
+	print "You know where your %s is but before starting a confrontation, you first need to select a weapon from your garage." % (enemyattrib.Enemy.name)
+	playerattrib.weapon_question()
+	print "As your weapon, you've chosen %s." % (playerattrib.Player.weapon)
+	
+	print "\n"
+	print "-" * 20
+	print "You find your %s, who glares and says..." % (enemyattrib.Enemy.name)
+	print "Your %s: What...?" % (enemyattrib.Enemy.name)
+	print "You attack first."
+	fightmenu.fight_menu()
+	
+	if enemyattrib.Enemy.HP <= 0 :			
+		enemy_dead()
+	elif playerattrib.Player.HP <= 0 :
+		player_dead()
+	else :
+		print "ERROR def main something wrong."
+
+main()
