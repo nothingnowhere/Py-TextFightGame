@@ -1,0 +1,438 @@
+import playerattrib
+import enemyattrib
+import random
+
+defense = "off"
+
+def is_player_dead() :
+	if playerattrib.Player.HP > 0 :
+		print "\n"
+		print "-" * 20
+		print "Enemy HP: %d" % (enemyattrib.Enemy.HP)
+		print "Your HP: %d" % (playerattrib.Player.HP)
+		fight_menu()
+	else: 
+		pass
+
+def is_enemy_dead() :
+	if enemyattrib.Enemy.HP > 0 :
+		player_evasion_roll()
+	else :
+		pass
+
+def is_enemy_dead_from_poison() :
+	if enemyattrib.Enemy.HP <= 0 :
+		pass
+	else :
+		is_player_dead()
+		
+
+def poison_damage_function() :
+	poison_damage = random.randint(3, 15)
+	#print "\n"
+	print "o-" * 23
+	print "The poison hurts the enemy for %d damage." % (poison_damage)
+	print "o-" * 23
+
+	enemyattrib.Enemy.HP -= poison_damage
+
+def defend_function(damage) :
+	global defense
+
+	'''
+	print "DEBUG" * 10
+	print "DEFEND FUNCTION activated"
+	print "DEBUG" * 10
+	'''
+
+	counter_roll = random.randint(0, 3) #2
+	crit_roll = random.randint(1, 10) #3 or 8
+	damage_roll = random.randint(10, 30)
+	damage_dealt = round((damage_roll * enemyattrib.Enemy.strength) + damage_roll)
+	evasion_roll = random.randint(0, 12) #[2] [4] [6, 7] [8, 10, 12]
+	parried_damage = round(damage * .5)
+	counter_damage = round(parried_damage * playerattrib.Player.strength)
+
+	if playerattrib.Player.evasion == 1 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 :
+			print "\nYou evade the enemy's attack."
+		else :
+			print "\nThe enemy's attack lands."
+			print "You parry and receive only %d damage." % (parried_damage)
+			if counter_roll == 2 :
+				print "\nYou successfully counter and deal %d." % (counter_damage)
+			playerattrib.Player.HP -= parried_damage
+			playerattrib.Player.HP -= counter_damage
+	elif playerattrib.Player.evasion == 2 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 or evasion_roll == 7 :
+			print "\nYou evade the enemy's attack."
+		else :
+			print "\nThe enemy's attack lands."
+			print "You parry and receive only %d damage." % (parried_damage)
+			if counter_roll == 2 :
+				print "\nYou successfully counter and deal %d." % (counter_damage)
+			playerattrib.Player.HP -= parried_damage
+			playerattrib.Player.HP -= counter_damage
+	elif playerattrib.Player.evasion == 3 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 or evasion_roll == 7 or evasion_roll == 8 or evasion_roll == 10 :
+			print "\nYou evade the enemy's attack."
+		else :
+			print "\nThe enemy's attack lands."
+			print "You parry and receive only %d damage." % (parried_damage)
+			if counter_roll == 2 :
+				print "\nYou successfully counter and deal %d." % (counter_damage)
+			playerattrib.Player.HP -= parried_damage
+			playerattrib.Player.HP -= counter_damage
+	elif playerattrib.Player.evasion == 4 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 or evasion_roll == 7 or evasion_roll == 8 or evasion_roll == 10 or evasion_roll == 12 :
+			print "\nYou evade the enemy's attack."
+		else :
+			print "\nThe enemy's attack lands."
+			print "You parry and receive only %d damage." % (parried_damage)
+			if counter_roll == 2 :
+				print "\nYou successfully counter and deal %d." % (counter_damage)
+			playerattrib.Player.HP -= parried_damage
+			playerattrib.Player.HP -= counter_damage
+
+	defense = "off"
+	'''
+	print "DEBUG" * 10
+	print "DEFENSE is now %s" % (defense)
+	print "DEBUG" * 10
+	'''
+
+def enemy_attack() :
+	global defense
+
+	crit_roll = random.randint(1, 10) #3 or 8
+	damage_roll = random.randint(10, 30)
+	damage_dealt = round((damage_roll * enemyattrib.Enemy.strength) + damage_roll)
+
+	'''
+	print "\n"
+	print "DEBUG" * 10
+	print "Enemy critical roll: %d" % (crit_roll)
+	print "Enemy damage roll: %d" % (damage_roll)
+	print "DEBUG" * 10
+	
+	print "DEBUG" * 10
+	print "DEFENSE is %s" % (defense)
+	print "DEBUG" * 10
+	'''
+
+	if defense == "on" :
+		if enemyattrib.Enemy.poison == "true" :
+			poison_damage_function()
+
+		if crit_roll == 3 or crit_roll == 8 :
+			critical_damage = round((damage_dealt * .5) + damage_dealt)
+			defend_function(critical_damage)
+		else :
+			defend_function(damage_dealt)
+		is_enemy_dead_from_poison()
+		#is_player_dead()
+	else :
+		if crit_roll == 3 or crit_roll == 8 :
+			critical_damage = round((damage_dealt * .5) + damage_dealt)
+			print "\nYour %s strikes and scores a critical!" % (enemyattrib.Enemy.name)
+			print "You suffer %d damage." % (critical_damage)
+			playerattrib.Player.HP -= critical_damage
+		else :
+			print "\nYour %s hits you for %d damage." % (enemyattrib.Enemy.name, damage_dealt)
+			playerattrib.Player.HP -= damage_dealt
+
+def player_evasion_roll() :
+	evasion_roll = random.randint(0, 12) #[2] [4] [6, 8] [8, 10]
+
+	if playerattrib.Player.evasion == 1 :
+		if evasion_roll == 2 :
+			print "\nYou dodge the enemy's attack."
+		else :
+			enemy_attack()
+	elif playerattrib.Player.evasion == 2 :
+		if evasion_roll == 2 or evasion_roll == 4 :
+			print "\nYou dodge the enemy's attack."
+		else :
+			enemy_attack()
+	elif playerattrib.Player.evasion == 3 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 or evasion_roll == 8 :
+			print "\nYou dodge the enemy's attack."
+		else :
+			enemy_attack()
+	elif playerattrib.Player.evasion == 4 :
+		if evasion_roll == 2 or evasion_roll == 4 or evasion_roll == 6 or evasion_roll == 8 or evasion_roll == 10 :
+			print "\nYou dodge the enemy's attack."
+		else :
+			enemy_attack()
+	else :
+		print "\nSomething is off."
+		print "Aborting..."
+		exit()
+
+	is_player_dead()
+
+def glass_weapon() :
+	glass_hurt = random.randint(0, 4)
+	if glass_hurt == 2 :
+		glass_damage = random.randint(1, 8)
+		print "\nThe glass slices into your hand."
+		print "You suffer %s damage." % (glass_damage)
+		playerattrib.Player.HP -= glass_damage
+
+def double_attack_message(damage_dealt) :
+	print "\nYou were quick enough to sneak in another hit."
+	print "Your %s takes %d damage." % (enemyattrib.Enemy.name, damage_dealt)
+
+	enemyattrib.Enemy.HP -= damage_dealt
+
+def double_attack_function() :
+	double_attack_roll = random.randint(0, 20)#[1, 19], [3, 17], [5, 10, 15], [7, 11, 13]
+	da_damage = random.randint(3, 15)
+
+	if playerattrib.Player.attack_speed == 1 :
+		if double_attack_roll == 1 or double_attack_roll == 19 :
+			double_attack_message(da_damage)
+	elif playerattrib.Player.attack_speed == 2 :
+		if double_attack_roll == 1 or double_attack_roll == 19 or double_attack_roll == 3 or double_attack_roll == 17 :
+			double_attack_message(da_damage)
+	elif playerattrib.Player.attack_speed == 3 :
+		if double_attack_roll == 1 or double_attack_roll == 19 or double_attack_roll == 3 or double_attack_roll == 17 or double_attack_roll == 5 or double_attack_roll == 10 or double_attack_roll == 15 :
+			double_attack_message(da_damage)
+	elif playerattrib.Player.attack_speed == 4 :
+		if double_attack_roll == 1 or double_attack_roll == 19 or double_attack_roll == 3 or double_attack_roll == 17 or double_attack_roll == 5 or double_attack_roll == 10 or double_attack_roll == 15 or double_attack_roll == 7 or double_attack_roll == 11 or double_attack_roll == 13 :
+			double_attack_message(da_damage)
+	else :
+		print "Something is off."
+		print "Aborting..."
+		exit()
+
+def normal_hit_message(damage_dealt) :
+	print "\n"
+	if playerattrib.Player.weapon == "martial arts" :
+		second_hit = random.randint(5, 15)
+		damage_dealt_two = round((second_hit * playerattrib.Player.strength) + second_hit)
+		first_attack_type = random.randint(0, 4)#0=headbutt, 1=punch, 2=elbow, 3=kick, 4=knee
+		second_attack_type = random.randint(0, 4)
+		if first_attack_type == 0 :
+			first_type = "headbutt"
+		elif first_attack_type == 1 :
+			first_type = "punch"
+		elif first_attack_type == 2 :
+			first_type = "elbow"
+		elif first_attack_type == 3 :
+			first_type = "kick"
+		else :
+			first_type = "knee"
+
+		if second_attack_type == 0 :
+			second_type = "headbutt"
+		elif second_attack_type == 1 :
+			second_type = "punch"
+		elif second_attack_type == 2 :
+			second_type = "elbow"
+		elif second_attack_type == 3 :
+			second_type = "kick"
+		else :
+			second_type = "knee"
+
+		print "You %s and deal %d damage." % (first_type, damage_dealt - 5)
+		print "You %s and deal %d damage." % (second_type, damage_dealt_two)
+		enemyattrib.Enemy.HP -= damage_dealt - 5
+		enemyattrib.Enemy.HP -= damage_dealt_two
+	else :
+		print "You attack and deal %d damage." % (damage_dealt)
+		enemyattrib.Enemy.HP -= damage_dealt
+
+	double_attack_function()
+
+	if playerattrib.Player.weapon == "broken glass" :
+		glass_weapon()
+
+	if enemyattrib.Enemy.poison == "true" :
+		poison_damage_function()
+
+	is_enemy_dead()
+
+def critical_hit_message(damage_dealt) :
+	print "\n"
+	print "!" * 20
+	print "SMAAAAAASH!"
+	print "You deal critical damage."
+	print "Your %s takes %d damage." % (enemyattrib.Enemy.name, round((damage_dealt * .5) + damage_dealt))
+	print "!" * 20
+
+	enemyattrib.Enemy.HP -= round((damage_dealt * .5) + damage_dealt)
+
+	if enemyattrib.Enemy.poison == "no" and playerattrib.Player.weapon == "rusted machete" :
+			poison_roll = random.randint(0, 4)
+			if poison_roll == 3 :
+				print "The rust on the machete enters the enemy's bloodstream, resulting in poison."
+				enemyattrib.Enemy.poison = "true"
+
+	double_attack_function()
+
+	if playerattrib.Player.weapon == "broken glass" :
+		glass_weapon()
+
+	if enemyattrib.Enemy.poison == "true" :
+		poison_damage_function()
+
+	is_enemy_dead()
+
+def ma_critical_hit(damage_dealt_one) :
+	second_hit = random.randint(5, 15)
+	second_critical = random.randint(1, 10) #5
+	damage_dealt_two = round((second_hit * playerattrib.Player.strength) + second_hit)
+	first_attack_type = random.randint(0, 4) #0=headbutt, 1=punch, 2=elbow, 3=kick, 4=knee
+	second_attack_type = random.randint(0, 4)
+	if first_attack_type == 0 :
+		first_type = "headbutt"
+	elif first_attack_type == 1 :
+		first_type = "punch"
+	elif first_attack_type == 2 :
+		first_type = "elbow"
+	elif first_attack_type == 3 :
+		first_type = "kick"
+	else :
+		first_type = "knee"
+
+	if second_attack_type == 0 :
+		second_type = "headbutt"
+	elif second_attack_type == 1 :
+		second_type = "punch"
+	elif second_attack_type == 2 :
+		second_type = "elbow"
+	elif second_attack_type == 3 :
+		second_type = "kick"
+	else :
+		second_type = "knee"
+	
+	print "\n"
+	print "!" * 20
+	print "SMAAAAAASH!"
+	print "You %s and deal critical damage." % (first_type)
+	print "Your %s takes %d damage." % (enemyattrib.Enemy.name, round((damage_dealt_one * .5) + damage_dealt_one - 10))
+	print "!" * 20
+	enemyattrib.Enemy.HP -= round((damage_dealt_one * .5) + damage_dealt_one - 8)
+
+	if second_critical == 5 :
+		print "\nSMAAAAAASH!"
+		print "You %s and deal critical damage." % (second_type)
+		print "Your %s takes %d damage." % (enemyattrib.Enemy.name, round((damage_dealt_two * .5) + damage_dealt_two))
+		enemyattrib.Enemy.HP -= round((damage_dealt_two * .5) + damage_dealt_two)
+	else :
+		print "\nYou %s and hit your %s for %d damage." % (second_type, enemyattrib.Enemy.name, damage_dealt_two)
+		enemyattrib.Enemy.HP -= damage_dealt_two
+
+	is_enemy_dead()
+
+def critical_roll() :
+	crit_hit = random.randint(1, 20) #[1, 19], [3, 17], [5, 10, 15], [7, 11, 13]
+	damage_hit = random.randint(12, 25)
+	attack_damage = round((damage_hit * playerattrib.Player.strength) + damage_hit)
+	attack_miss = random.randint(1, 10) #5
+	attack_miss_message = random.randint(0, 1) #0=miss, 1=dodge
+
+	'''
+	print "DEBUG" * 10
+	print "critical hit roll is %s" % (crit_hit)
+	print "daamge hit roll is %s" % (damage_hit)
+	print "Player weapon is: %s" % (playerattrib.Player.weapon)
+	print "DEBUG" * 10
+
+	print "DEBUG" * 10
+	print "Attack miss roll: %d" % (attack_miss)
+	print "Attack miss message roll: %d" % (attack_miss_message)
+	print "DEBUG" * 10
+	'''
+
+	if playerattrib.Player.critical_hit == 1 :
+		if attack_miss == 5 :
+			if attack_miss_message == 0 :
+				print "\nYou attack but miss."
+			else :
+				print "\nThe enemy evades your attack."
+			is_enemy_dead()
+		elif playerattrib.Player.weapon == "martial arts" :
+			if crit_hit == 1 or crit_hit == 19 :
+				ma_critical_hit(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+		else :
+			if crit_hit == 1 or crit_hit == 19 :
+				critical_hit_message(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+	elif playerattrib.Player.critical_hit == 2 :
+		if attack_miss == 5 :
+			if attack_miss_message == 0 :
+				print "\nYou attack but miss."
+			else :
+				print "\nThe enemy evades your attack."
+			is_enemy_dead()
+		elif playerattrib.Player.weapon == "martial arts" :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 :
+				ma_critical_hit(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+		else :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 :
+				critical_hit_message(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+	elif playerattrib.Player.critical_hit == 3 :
+		if attack_miss == 5 :
+			if attack_miss_message == 0 :
+				print "\nYou attack but miss."
+			else :
+				print "\nThe enemy evades your attack."
+			is_enemy_dead()
+		elif playerattrib.Player.weapon == "martial arts" :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 or crit_hit == 5 or crit_hit == 10 or crit_hit == 15 :
+				ma_critical_hit(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+		else :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 or crit_hit == 5 or crit_hit == 10 or crit_hit == 15 :
+				critical_hit_message(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+	elif playerattrib.Player.critical_hit == 4 :
+		if attack_miss == 5 :
+			if attack_miss_message == 0 :
+				print "\nYou attack but miss."
+			else :
+				print "\nThe enemy evades your attack."
+			is_enemy_dead()
+		elif playerattrib.Player.weapon == "martial arts" :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 or crit_hit == 5 or crit_hit == 10 or crit_hit == 15 or crit_hit == 7 or crit_hit == 11 or crit_hit == 13 :
+				ma_critical_hit(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+		else :
+			if crit_hit == 1 or crit_hit == 19 or crit_hit == 3 or crit_hit == 17 or crit_hit == 5 or crit_hit == 10 or crit_hit == 15 or crit_hit == 7 or crit_hit == 11 or crit_hit == 13 :
+				critical_hit_message(attack_damage)
+			else :
+				normal_hit_message(attack_damage)
+	else :
+		print "Something is off."
+		print "Aborting..."
+		exit()
+
+def fight_menu() :
+	global defense
+
+	print "\n"
+	print "-" * 20
+	print ">>attack\t>>defend"
+
+	player_move = raw_input(">> ")
+	if player_move.lower() == "attack" :
+		critical_roll()
+	elif player_move.lower() == "defend" :
+		defense = "on"
+		enemy_attack()
+	else :
+		print "Something is off."
+		print "Please type either 'attack' or 'defend'."
+		fight_menu()
