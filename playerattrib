@@ -1,0 +1,243 @@
+frequency_list = ["( ) none", "( ) little", "( ) often", "( ) lots"]
+counter_none = 0
+counter_little = 0
+counter_often = 0
+counter_lots = 0
+
+class Player(object) :
+	def __init__(self, strength, evasion, attack_speed, critical_hit, weapon, HP) :
+		self.strength = strength
+		self.evasion = evasion
+		self.attack_speed = attack_speed
+		self.critical_hit = critical_hit
+		self.weapon = weapon
+		self.HP = HP
+
+def weapon_question() :
+	print "( ) yoyo"
+	print "( ) baseball bat"
+	print "( ) frying pan"
+	print "( ) hand saw"
+	print "( ) hammer"
+	print "( ) tire iron"
+	print "( ) broken glass"
+	print "( ) rusted machete"
+	print "( ) martial arts"
+
+	weapon_answer = raw_input(">> ")
+	if weapon_answer.lower() == "yoyo" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "baseball bat" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "frying pan" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "hand saw" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "hammer" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "tire iron" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "broken glass" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "rusted machete" :
+		Player.weapon = weapon_answer.lower()
+	elif weapon_answer.lower() == "martial arts" :
+		Player.weapon = weapon_answer.lower()
+	else :
+		print "Something is off."
+		print "Please type in the full word, as seen on the screen."
+		weapon_question()
+
+	Player.HP = 500
+
+def critical_hit_question() :
+	global counter_none
+	global counter_little
+	global counter_often
+	global counter_lots
+	print "\n"
+	print "-" * 20
+	print "How often do you get mad?"
+	
+	if counter_none == 0 :
+		print frequency_list[0]
+	if counter_little == 0 :
+		print frequency_list[1]
+	if counter_often == 0 :
+		print frequency_list[2]
+	if counter_lots == 0 :
+		print frequency_list[3]
+		
+	critical_hit_answer = raw_input(">> ")
+	if critical_hit_answer.lower() == "none" and counter_none == 0 :
+		Player.critical_hit = 1
+		counter_none += 1
+	elif critical_hit_answer.lower() == "little" and counter_little == 0 :
+		Player.critical_hit = 2
+		counter_little += 1
+	elif critical_hit_answer.lower() == "often" and counter_often == 0 :
+		Player.critical_hit = 3
+		counter_often += 1
+	elif critical_hit_answer.lower() == "lots" and counter_lots == 0 :
+		Player.critical_hit = 4
+		counter_lots += 1
+	elif critical_hit_answer.lower() == "none" and counter_none == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		critical_hit_question()
+	elif critical_hit_answer.lower() == "little" and counter_little == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		critical_hit_question()
+	elif critical_hit_answer.lower() == "often" and counter_often == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		critical_hit_question()
+	elif critical_hit_answer.lower() == "lots" and counter_lots == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		critical_hit_question()
+	else :
+		print "Something is off."
+		print "Please type out the full word, as seen on the screen."
+		critical_hit_question()
+		
+def attack_speed_question() :
+	global counter_none
+	global counter_little
+	global counter_often
+	global counter_lots
+	print "\n"
+	print "-" * 20
+	print "How often do you shadow box?"
+	
+	if counter_none == 0 :
+		print frequency_list[0]
+	if counter_little == 0 :
+		print frequency_list[1]
+	if counter_often == 0 :
+		print frequency_list[2]
+	if counter_lots == 0 :
+		print frequency_list[3]
+		
+	attack_speed_answer = raw_input(">> ")
+	if attack_speed_answer.lower() == "none" and counter_none == 0 :
+		Player.attack_speed = 1
+		counter_none += 1
+	elif attack_speed_answer.lower() == "little" and counter_little == 0 :
+		Player.attack_speed = 2
+		counter_little += 1
+	elif attack_speed_answer.lower() == "often" and counter_often == 0 :
+		Player.attack_speed = 3
+		counter_often += 1
+	elif attack_speed_answer.lower() == "lots" and counter_lots == 0 :
+		Player.attack_speed = 4
+		counter_lots += 1
+	elif attack_speed_answer.lower() == "none" and counter_none == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		attack_speed_question()
+	elif attack_speed_answer.lower() == "little" and counter_little == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		attack_speed_question()
+	elif attack_speed_answer.lower() == "often" and counter_often == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		attack_speed_question()
+	elif attack_speed_answer.lower() == "lots" and counter_lots == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		attack_speed_question()
+	else :
+		print "Something is off."
+		print "Please type out the full word, as seen on the screen."
+		attack_speed_question()
+		
+def evasion_question() :
+	global counter_none
+	global counter_little
+	global counter_often
+	global counter_lots
+	print "\n"
+	print "-" * 20
+	print "How often do you jump?"
+	
+	if counter_none == 0 :
+		print frequency_list[0]
+	if counter_little == 0 :
+		print frequency_list[1]
+	if counter_often == 0 :
+		print frequency_list[2]
+	if counter_lots == 0 :
+		print frequency_list[3]
+		
+	jump_answer = raw_input(">> ")
+	if jump_answer.lower() == "none" and counter_none == 0 :
+		Player.evasion = 1
+		counter_none += 1
+	elif jump_answer.lower() == "little" and counter_little == 0 :
+		Player.evasion = 2
+		counter_little += 1
+	elif jump_answer.lower() == "often" and counter_often == 0 :
+		Player.evasion = 3
+		counter_often += 1
+	elif jump_answer.lower() == "lots" and counter_lots == 0 :
+		Player.evasion = 4
+		counter_lots += 1
+	elif jump_answer.lower() == "none" and counter_none == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		evasion_question()
+	elif jump_answer.lower() == "little" and counter_little == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		evasion_question()
+	elif jump_answer.lower() == "often" and counter_often == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		evasion_question()
+	elif jump_answer.lower() == "lots" and counter_lots == 1 :
+		print "You've already selected this option."
+		print "Please pick another, unused one."
+		evasion_question()
+	else :
+		print "Something is off."
+		print "Please type out the full, as seen on the screen."
+		evasion_question()
+		
+def strength_question() :
+	global counter_none
+	global counter_little
+	global counter_often
+	global counter_lots
+	print "\n"
+	print "-" * 20
+	print "How often do you bench press? (Note: Each option can only be picked once.)"
+	
+	if counter_none == 0 :
+		print frequency_list[0]
+	if counter_little == 0 :
+		print frequency_list[1]
+	if counter_often == 0 :
+		print frequency_list[2]
+	if counter_lots == 0 :
+		print frequency_list[3]
+
+	bench_press_answer = raw_input(">> ")
+	if bench_press_answer == "none" :
+		Player.strength = .1
+		counter_none += 1
+	elif bench_press_answer == "little" :
+		Player.strength = .2
+		counter_little += 1
+	elif bench_press_answer == "often" :
+		Player.strength = .3
+		counter_often += 1
+	elif bench_press_answer == "lots" :
+		Player.strength = .4
+		counter_lots += 1
+	else :
+		print "Something is off."
+		print "Please type out the full, as seen on the screen."
+		strength_question()
