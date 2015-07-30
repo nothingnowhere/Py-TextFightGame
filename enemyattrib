@@ -1,0 +1,118 @@
+class Enemy(object) :
+	def __init__(self, HP, strength, name, poison) :
+		self.HP = HP
+		self.strength = strength
+		self.name = name
+		self.poison = poison
+		
+def enemy_difficulty() :
+	print "\n"
+	print "-" * 20
+	if Enemy.name == "high school teacher" or Enemy.name == "college professor" :
+		print "How hard was your %s, on a scale of 1-5?" % (Enemy.name)
+	elif Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+		print "How mean was your %s, on a scale of 1-5?" % (Enemy.name)
+	elif Enemy.name == "nightmare" :
+		print "How scary was your nightmare, on a scale of 1-5?"
+	else :
+		print "Something is off."
+		print "Aborting..."
+		exit()
+		
+	difficulty = raw_input(">> ")
+	if difficulty == "1" :
+		if Enemy.name == "high school teacher" or Enemy.name == "college professor" or Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+			Enemy.strength = .2
+			Enemy.HP = 300
+		elif Enemy.name == "nightmare" :
+			Enemy.strength = .4
+			Enemy.HP = 350
+		else :
+			print "Something is off."
+			print "Aborting..."
+			exit()
+	elif difficulty == "2":
+		if Enemy.name == "high school teacher" or Enemy.name == "college professor" or Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+			Enemy.strength = .25
+			Enemy.HP = 350
+		elif Enemy.name == "nightmare" :
+			Enemy.strength = .45
+			Enemy.HP = 425
+		else :
+			print "Something is off."
+			print "Aborting..."
+			exit()
+	elif difficulty == "3" :
+		if Enemy.name == "high school teacher" or Enemy.name == "college professor" or Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+			Enemy.strength = .3
+			Enemy.HP = 400
+		elif Enemy.name == "nightmare" :
+			Enemy.strength = .5
+			Enemy.HP = 550
+		else :
+			print "Something is off."
+			print "Aborting..."
+			exit()
+	elif difficulty == "4" :
+		if Enemy.name == "high school teacher" or Enemy.name == "college professor" or Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+			Enemy.strength = .4
+			Enemy.HP = 450
+		elif Enemy.name == "nightmare" :
+			Enemy.strength = .6
+			Enemy.HP = 650
+		else :
+			print "Something is off."
+			print "Aborting..."
+			exit()
+	elif difficulty == "5" :
+		if Enemy.name == "high school teacher" or Enemy.name == "college professor" or Enemy.name == "babysitter" or Enemy.name == "brother" or Enemy.name == "sister" or Enemy.name == "mom" or Enemy.name == "dad" :
+			Enemy.strength = .5
+			Enemy.HP = 500
+		elif Enemy.name == "nightmare" :
+			Enemy.strength = .7
+			Enemy.HP = 750
+		else :
+			print "Something is off."
+			print "Aborting..."
+			exit()
+	else :
+		print "Something is off."
+		print "Please input a number from 1-5."
+		enemy_difficulty()
+
+	Enemy.poison = "no"
+
+def choose_enemy() :
+	print "( ) high school teacher"
+	print "( ) college professor"
+	print "( ) babysitter"
+	print "( ) brother"
+	print "( ) sister"
+	print "( ) mom"
+	print "( ) dad"
+	print "( ) nightmare"
+	chosen_enemy = raw_input(">> ")
+	
+	if chosen_enemy.lower() == "high school teacher" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "college professor" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "babysitter" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "brother" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "sister" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "mom" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "dad" :
+		Enemy.name = chosen_enemy.lower()
+	elif chosen_enemy.lower() == "nightmare" :
+		Enemy.name = chosen_enemy.lower()
+	else :
+		print "\n"
+		print "-" * 20
+		print "Something is off."
+		print "Please type out the full word, as seen on the screen."
+		print "\n"
+		choose_enemy()
